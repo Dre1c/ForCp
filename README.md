@@ -1,26 +1,35 @@
 # ForCp
 #Приводим все атрибуты к нижнему регистру
+
 df = df.map(lambda x : x.lower() if isinstance(x, str) else x)
 
 #Присваеваем корректный формат данных для атрибутов, которым это необходимо. так же сохраняем датасет для выполнения пункта 1.5
+
 df['Дата публикации'] = pd.to_datetime(df['Дата публикации'])
+
 dfq = df
 
 #Приведем атрибуты к одному типу данных
+
 column_factorize = df.select_dtypes(include = 'object')
+
 df2 = column_factorize.apply(lambda x: pd.factorize(x)[0])
+
 df = pd.concat([df2, df['Заработная плата']], axis = 1)
+
 df
 
 #Определим критические значения из пропущенных значений
+
 critical_nulls = 0.3
 
 missing_ratios = dfq.isnull().mean()
+
 critical_columns = missing_ratios[missing_ratios > critical_nulls]
 
 if not critical_columns.empty:
-    print("Критические столбцы:")
-    print(critical_columns)
+     print("Критические столбцы:")
+     print(critical_columns)
 else:
     print("Нет критических столбцов.")
     
@@ -34,6 +43,7 @@ sns.heatmap(df.corr(), annot=True, vmin=-1, vmax=1, center=0, cmap='coolwarm')
 
 
 # Анализ плотности распределения значений для каждого столбца
+
 count = 1 
 for i in list(df.columns): 
     plt.figure(figsize=(25, 25))
@@ -43,9 +53,11 @@ for i in list(df.columns):
     plt.title(i)
     count += 1
 # отобразим график
+
 plt.show()
 
 #Сохранение нового измененного файла
+
 dfq.to_csv("output.csv", index = False, encoding = 'utf-8-sig')
 python
 import numpy as np
@@ -55,6 +67,7 @@ import seaborn as sns
 import warnings 
 warnings.filterwarnings('ignore')
 textы
+
 # Проанализировав эти данные о заработной плате можно сделать следующие выводы:
 
 - Средняя заработная плата в рассматриваемой выборке составляет примерно $28,661.08.
